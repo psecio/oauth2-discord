@@ -4,26 +4,55 @@ namespace League\OAuth2\Client\Provider;
 
 class DiscordResourceOwner implements ResourceOwnerInterface
 {
-    // protected $domain;
+    /**
+     * Response information
+     * @var array
+     */
+    protected $response = [];
 
-    protected $response;
-
+    /**
+     * Init the object with the response information
+     *
+     * @param array $response Response data
+     */
     public function __construct(array $response = [])
     {
-        error_log(print_r($response, true));
-
         $this->response = $response;
     }
 
-    public function getId()
+    /**
+     * Magic method allowing the fetch of any properties from the object
+     *
+     * @param string $name Method name to call (get*)
+     * @param array $args Arguments
+     * @return mixed|InvalidArgumentException Value if the property is found, otherwise an exception
+     */
+    public function __call($name, $args)
     {
-        error_log(get_class().' :: '.__FUNCTION__);
+        $name = str_replace('get', '', strtolower($name));
+        if (!isset($this->response[$name])) {
+            throw new \InvalidArgumentException('Invalid property: '.$name);
+        }
+        return $this->response[$name];
     }
 
+    /**
+     * Get the ID of the current user
+     *
+     * @return integer User ID
+     */
+    public function getId()
+    {
+        return $this->response['id'];
+    }
+
+    /**
+     * Return an array of all current properties
+     *
+     * @return array Set of properties
+     */
     public function toArray()
     {
-        error_log(get_class().' :: '.__FUNCTION__);
-
         return $this->response;
     }
 }
