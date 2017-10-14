@@ -1,0 +1,22 @@
+{
+    "name": "psecio/oauth2-discord",
+    "description": "A Discord provider for the League Oauth2 client",
+    "keywords": ["discord", "provider", "oauth2", "thephpleague"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chris Cornutt",
+            "email": "ccornutt@phpdeveloper.org"
+        }
+    ],
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Psecio\\DiscordOauth\\": "src/"
+        }
+    }
+}
