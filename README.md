@@ -12,7 +12,7 @@ composer require psecio/oauth2-discord
 
 ### Usage
 
-```
+```php
 <?php
 
 $provider = new \League\OAuth2\Client\Provider\Discord([
