@@ -16,7 +16,8 @@
     },
     "autoload": {
         "psr-4": {
-            "League\\OAuth2\\Client\\": "src/"
+            "League\\OAuth2\\Client\\": "src/",
+            "Psecio\\DiscordPHP\\": "src/DiscordPHP"
         }
     }
 }
