@@ -7,6 +7,7 @@ use League\OAuth2\Client\Provider\Exception\DiscordIdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
+use App\Email;
 
 class Discord extends \League\OAuth2\Client\Provider\AbstractProvider
 {
@@ -73,7 +74,7 @@ class Discord extends \League\OAuth2\Client\Provider\AbstractProvider
      * @param array $data Extra data
      * @return null|DiscordIdentityProviderException Null if valid, exception on failure
      */
-    protected function checkResponse(ResponseInterface $response, array $data = [])
+    protected function checkResponse(ResponseInterface $response, $data)
     {
         if (isset($data['error'])) {
             throw DiscordIdentityProviderException::oauthException($response, $data);
@@ -101,5 +102,26 @@ class Discord extends \League\OAuth2\Client\Provider\AbstractProvider
     public function addScopes(array $scopes)
     {
         $this->scopes = array_merge($scopes, $this->scopes);
+    }
+
+    /**
+     * Make the authorized request to the API using the token
+     *
+     * @param string $method HTTP method to use (GET/POST/etc)
+     * @param string  $url URL for request
+     * @param  AccessToken $token  Token instance
+     * @return Psr-7 Response object
+     */
+    public function request($method, $url, AccessToken $token)
+    {
+        // Check the expiration on the token, use the refresh if needed
+        if ($expire < time()) {
+            // Refresh here - @todo
+        }
+
+        $url = $this->baseUrl.$url;
+        $request = $this->getAuthenticatedRequest($method, $url, $token);
+
+        return $this->getResponse($request);
     }
 }
