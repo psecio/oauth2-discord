@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "enygma/modler": "2.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.1.4"
