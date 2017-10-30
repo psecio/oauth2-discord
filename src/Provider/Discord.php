@@ -17,13 +17,14 @@ class Discord extends \League\OAuth2\Client\Provider\AbstractProvider
      * Base URL of the Discord API
      * @var string
      */
-    protected $baseUrl = 'https://discordapp.com/api';
+    // protected $baseUrl = 'https://discordapp.com/api';
+    protected $baseUrl = 'https://discordapp.com';
 
     /**
      * Default scopes to be requested
      * @var array
      */
-    protected $scopes = ['identify'];
+    protected $scopes = ['bot'];
 
     /**
      * Get the URL (with base) for the authorization endpoint
@@ -109,19 +110,21 @@ class Discord extends \League\OAuth2\Client\Provider\AbstractProvider
      *
      * @param string $method HTTP method to use (GET/POST/etc)
      * @param string  $url URL for request
+     * @param boolean $raw Return the raw response object or just the JSON result
      * @param  AccessToken $token  Token instance
      * @return Psr-7 Response object
      */
-    public function request($method, $url, AccessToken $token)
+    public function request($method, $url, AccessToken $token, $raw = false)
     {
         // Check the expiration on the token, use the refresh if needed
-        if ($expire < time()) {
+        if ($token->getExpires() < time()) {
             // Refresh here - @todo
         }
 
         $url = $this->baseUrl.$url;
         $request = $this->getAuthenticatedRequest($method, $url, $token);
 
-        return $this->getResponse($request);
+        $response = $this->getResponse($request);
+        return ($raw == true) ? $response : json_decode($response->getBody());
     }
 }
