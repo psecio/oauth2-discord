@@ -17,8 +17,8 @@ class Discord extends \League\OAuth2\Client\Provider\AbstractProvider
      * Base URL of the Discord API
      * @var string
      */
-    // protected $baseUrl = 'https://discordapp.com/api';
-    protected $baseUrl = 'https://discordapp.com';
+    protected $baseUrl = 'https://discordapp.com/api';
+    //protected $baseUrl = 'https://discordapp.com';
 
     /**
      * Default scopes to be requested
